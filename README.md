@@ -17,12 +17,12 @@
 Modified copy of source code at:
 https://github.com/quadportnick/docker-cups-airprint
 
-# [Intro](#toc)
+# <a name="intro"></a> [Multi-arch Image](#toc)
 This Debian-based Docker image runs a CUPS instance that is meant as an AirPrint
 relay for printers that are already on the network but not AirPrint capable.
 The local Avahi will be utilized for advertising the printers on the network.
 
-# [Multi-arch Image](#toc)
+# <a name="multi-arch"></a> [Multi-arch Image](#toc)
 The below commands reference a [Docker Manifest List](https://docs.docker.com/engine/reference/commandline/manifest/) at [`tigerj/cups-airprint`](https://hub.docker.com/r/tigerj/cups-airprint) built using Docker's
 [BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/).
 Simply running commands using this image will pull
