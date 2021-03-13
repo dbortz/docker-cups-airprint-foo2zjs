@@ -1,34 +1,20 @@
-FROM ubuntu:xenial
+FROM debian:buster-slim
 
-# Install the packages we need. Avahi will be included
-RUN apt-get update && apt-get install -y \
-	cups \
-	cups-pdf \
-  	cups-bsd \
-  	cups-filters \
-	hplip \
-	inotify-tools \
-	foomatic-db-compressed-ppds \
-	printer-driver-all \
-	openprinting-ppds \
-	hpijs-ppds \
-	hp-ppd \
-	python-cups \
-&& rm -rf /var/lib/apt/lists/*
-
-# This will use port 631
+# Install packages
+RUN apt update && apt install -y cups cups-pdf inotify-tools python3-cups avahi-daemon build-essential wget dc vim groff
+# Expose port and volumes
 EXPOSE 631
-
-# We want a mount for these
 VOLUME /config
 VOLUME /services
 
 # Add scripts
-ADD root /
-RUN chmod +x /root/*
-CMD ["/root/run_cups.sh"]
+ADD scripts /scripts
+RUN chmod +x /scripts/*
 
-# Baked-in config file changes
+# Build foo2zjs
+RUN ./scripts/build-foo2zjs.sh
+
+# Change default CUPS settings
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
 	sed -i 's/Browsing Off/Browsing On/' /etc/cups/cupsd.conf && \
 	sed -i 's/<Location \/>/<Location \/>\n  Allow All/' /etc/cups/cupsd.conf && \
@@ -36,3 +22,10 @@ RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && 
 	sed -i 's/<Location \/admin\/conf>/<Location \/admin\/conf>\n  Allow All/' /etc/cups/cupsd.conf && \
 	echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
 	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
+
+# Cleanup
+RUN apt purge -y build-essential wget dc vim groff
+RUN apt autoremove --purge -y && apt clean all -y && rm -rf /var/lib/apt/lists/*
+
+# Run CUPS
+CMD ["/scripts/run-cups.sh"]
