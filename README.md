@@ -1,4 +1,4 @@
-# <a name="toc"></a> Table of Contents
+# Table of Contents
 * [About](#about)
 * [Intro](#intro)
 * [Multi-arch Image](#multi-arch)
