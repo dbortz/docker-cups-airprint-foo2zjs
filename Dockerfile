@@ -2,17 +2,15 @@ FROM debian:buster-slim
 
 # Install packages
 RUN apt update && apt install -y cups cups-pdf inotify-tools python3-cups avahi-daemon build-essential wget dc vim groff
+
 # Expose port and volumes
 EXPOSE 631
 VOLUME /config
 VOLUME /services
 
-# Add scripts
+# Add scripts and build foo2zjs
 ADD scripts /scripts
-RUN chmod +x /scripts/*
-
-# Build foo2zjs
-RUN ./scripts/build-foo2zjs.sh
+RUN chmod +x /scripts/* &&  ./scripts/build-foo2zjs.sh
 
 # Change default CUPS settings
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
@@ -24,8 +22,7 @@ RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && 
 	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
 # Cleanup
-RUN apt purge -y build-essential wget dc vim groff
-RUN apt autoremove --purge -y && apt clean all -y && rm -rf /var/lib/apt/lists/*
+RUN apt purge -y build-essential wget dc vim groff && apt autoremove --purge -y && apt clean all -y && rm -rf /var/lib/apt/lists/*
 
 # Run CUPS
 CMD ["/scripts/run-cups.sh"]
