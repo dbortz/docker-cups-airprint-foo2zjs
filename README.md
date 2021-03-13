@@ -3,7 +3,6 @@
 * [Intro](#intro)
 * [Multi-arch Image](#multi-arch)
 * [Getting Started](#start)
-  + [Docker Run](#drun)
   + [Docker Create](#dcreate)
     + [Parameters](#dparams)
 * [Using](#using)
@@ -23,7 +22,7 @@ relay for printers that are already on the network but not AirPrint capable.
 The local Avahi will be utilized for advertising the printers on the network.
 
 # <a name="multi-arch"></a> [Multi-arch Image](#toc)
-The below commands reference a [Docker Manifest List](https://docs.docker.com/engine/reference/commandline/manifest/) at [`tigerj/cups-airprint`](https://hub.docker.com/r/tigerj/cups-airprint) built using Docker's
+The below commands reference a [Docker Manifest List](https://docs.docker.com/engine/reference/commandline/manifest/) at [`xxx/cups-airprint`](https://hub.docker.com/r/xxx/cups-airprint) built using Docker's
 [BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/).
 Simply running commands using this image will pull
 the matching image architecture (e.g. `amd64`, `arm32v7`, or `arm64`) based on
@@ -36,50 +35,15 @@ image will not run.
 
 # [Getting Started](#toc)
 This section will give an overview of the essential options/arguments to pass
-to docker to successfully run containers from the `tigerj/cups-airprint` docker
+to docker to successfully run containers from the `xxx/cups-airprint` docker
 image.
 
-## [Docker Run](#toc)
-To simply do a quick and dirty run of the cups/airprint container:
-```sh
-$ docker run
-       -d \
-       --name=cups \
-       --net=host \
-       -v /var/run/dbus:/var/run/dbus \
-       --device /dev/bus \
-       --device /dev/usb \
-       -e CUPSADMIN="admin" \
-       -e CUPSPASSWORD="password" \
-       tigerj/cups-airprint
-```
-To stop the container simply run:
-```sh
-$ docker stop cups
-```
-To remove the conainer simply run:
-```sh
-$ docker rm cups
-```
-**WARNING**: Be aware that deleting the container (i.e. `cups` in the example)
-will permanently delete the data that `docker volume` is storing for you.
-If you want to permanently persist this data, see the `docker create` example
-[below](#create). Continue reading the *Notes* section for more details about
-Docker volumes
-
-**Notes**: The `Dockerfile` explicitly sets volumes at `/config` and
-`/services` (see [these lines](https://github.com/RagingTiger/docker-cups-airprint/blob/2a30b6690a08262fb64375b74f07ab7b3f77ec4a/Dockerfile#L16-L17)).
- The necessary configurations done by the `docker container` will be
-stored in those directories and will persist even if the container stops. Docker
-will store the contents of these directories (located in the container) in
-`/var/lib/docker/volumes` (see for reference [Docker Volumes](https://docs.docker.com/storage/volumes/)).
-
-## [Docker Create](#toc)
+## <a name="dcreate"></a> [Docker Create](#toc)
 Creating a container is often more desirable than directly running it:
 
 ```sh
 $ docker create \
-       --name=cups \
+       --name=cups-airprint-foo2zjs \
        --restart=always \
        --net=host \
        -v /var/run/dbus:/var/run/dbus \
@@ -89,20 +53,20 @@ $ docker create \
        --device /dev/usb \
        -e CUPSADMIN="admin" \
        -e CUPSPASSWORD="password" \
-       tigerj/cups-airprint
+       xxx/cups-airprint-foo2zjs
 ```
 Follow this with `docker start` and your cups/airprint printer is running:
 
 ```sh
-$ docker start cups
+$ docker start cups-airprint-foo2zjs
 ```
 To stop the container simply run:
 ```sh
-$ docker stop cups
+$ docker stop cups-airprint-foo2zjs
 ```
 To remove the conainer simply run:
 ```sh
-$ docker rm cups
+$ docker rm cups-airprint-foo2zjs
 ```
 
 **Notes**: As mentioned in the *Notes* subsection of the [Run](#run) section,
@@ -145,7 +109,7 @@ configuration for this same reason
 
 ### [Missing Printer Driver](#toc)
 As you might imagine this is **the most common** problem users have when setting
-up their printers. While the **tigerj/cups-airprint** image possesses
+up their printers. While the **xxx/cups-airprint** image possesses
 **multiple printer drivers**, it most likely **does not** have every driver for
 every printer. This issue can be resolved as follows:
 
