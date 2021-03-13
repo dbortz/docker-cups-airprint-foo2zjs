@@ -1,7 +1,18 @@
 FROM debian:buster-slim
 
 # Install packages
-RUN apt update && apt install -y cups cups-pdf inotify-tools python3-cups avahi-daemon build-essential wget dc vim groff
+RUN apt update && apt install -y --no-install-recommends --no-install-suggests \
+	cups \
+	cups-pdf \
+	inotify-tools \
+	python3-cups \
+	avahi-daemon \
+	build-essential \
+	tix \	
+	groff \
+	wget \
+	dc \
+	vim
 
 # Expose port and volumes
 EXPOSE 631
@@ -22,7 +33,10 @@ RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && 
 	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
 # Cleanup
-RUN apt purge -y build-essential wget dc vim groff && apt autoremove --purge -y && apt clean all -y && rm -rf /var/lib/apt/lists/*
+RUN apt purge -y build-essential wget dc vim groff \
+	&& apt autoremove --purge -y \
+	&& apt clean all -y \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Run CUPS
 CMD ["/scripts/run-cups.sh"]

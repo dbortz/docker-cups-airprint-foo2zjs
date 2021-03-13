@@ -19,5 +19,5 @@ fi
 
 cp /config/printers.conf /etc/cups/printers.conf
 
-/root/printer-update.sh &
+/scripts/printer-update.sh &
 exec /usr/sbin/cupsd -f
