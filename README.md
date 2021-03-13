@@ -44,7 +44,7 @@ image.
 
 ## <a name="drun"></a> [Docker Run](#toc)
 To simply do a quick and dirty run of the cups/airprint container:
-```
+``sh
 $ docker run
        -d \
        --name=cups \
@@ -55,13 +55,13 @@ $ docker run
        -e CUPSADMIN="admin" \
        -e CUPSPASSWORD="password" \
        tigerj/cups-airprint
-```
+``sh
 To stop the container simply run:
-```
+``sh
 $ docker stop cups
-```
+``sh
 To remove the conainer simply run:
-```
+``sh
 $ docker rm cups
 ```
 **WARNING**: Be aware that deleting the container (i.e. `cups` in the example)
