@@ -1,0 +1,18 @@
+---
+version: '3.8'
+services:
+  cups-airprint-foo2zjs:
+    container_name: cups-airprint-foo2zjs
+    image: cups-airprint-foo2zjs
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - CUPSADMIN=cupsadmin
+      - CUPSPASSWORD=cups123
+    volumes:
+      - /opt/docker/cups-airprint-foo2zjs/config:/config
+      - /opt/docker/cups-airprint-foo2zjs/services:/services
+      - /var/run/dbus:/var/run/dbus:ro
+    devices:
+      - "/dev/bus:/dev/bus"
+      - "/dev/usb:/dev/usb"

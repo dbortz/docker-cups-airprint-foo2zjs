@@ -15,7 +15,7 @@ RUN apt update && apt install -y --no-install-recommends --no-install-suggests \
 	vim
 
 # Expose port and volumes
-EXPOSE 631
+EXPOSE 631/tcp
 VOLUME /config
 VOLUME /services
 

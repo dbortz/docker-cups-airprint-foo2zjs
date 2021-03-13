@@ -6,7 +6,7 @@ if [ $(grep -ci $CUPSADMIN /etc/shadow) -eq 0 ]; then
 	useradd -r -G lpadmin -M $CUPSADMIN
 fi
 
-echo $CUPSADMIN:$CUPSPASSWORD | chpasswd
+usermod --password $CUPSPASSWORD $CUPSADMIN
 
 mkdir -p /config/ppd
 mkdir -p /services
