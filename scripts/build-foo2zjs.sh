@@ -1,5 +1,5 @@
 #!/bin/bash
-wget -O foo2zjs.tar.gz http://foo2zjs.rkkda.com/foo2zjs.tar.gz &&
+wget -O foo2zjs.tar.gz http://foo2zjs.linkevich.net/foo2zjs/foo2zjs.tar.gz &&
 	tar zxf foo2zjs.tar.gz &&
 	cd foo2zjs &&
 	make &&
